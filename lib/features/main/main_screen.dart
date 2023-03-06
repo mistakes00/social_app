@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:social_app/data/client/api_client.dart';
 import 'package:social_app/features/adding/adding_screen.dart';
 import 'package:social_app/features/search/search_screen.dart';
 
@@ -19,8 +20,6 @@ class BottomBarItemValue {
 }
 
 class MainScreen extends StatefulWidget {
-  // static const route = AppRoute('/');
-
   const MainScreen({super.key});
 
   @override
@@ -77,11 +76,13 @@ class _MainScreenState extends State<MainScreen> {
         setState(() {});
       },
       screens: [
-        HomeScreen(),
-        const SearchScreen(),
-        const AddingScreen(),
-        const ChatScreen(),
-        const ProfileScreen(),
+        HomeScreen(
+          apiService: ApiService(),
+        ),
+        SearchScreen(),
+        AddingScreen(),
+        ChatScreen(),
+        ProfileScreen(),
       ],
       items: _items
           .asMap()

@@ -4,12 +4,12 @@ import 'package:social_app/data/model/post_model.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class LentaImageCard extends StatelessWidget {
-  LentaImageCard({Key? key, required this.posts}) : super(key: key);
+  const LentaImageCard({Key? key, required this.posts}) : super(key: key);
   final List<PostModel> posts;
   @override
   Widget build(BuildContext context) {
     return StaggeredGridView.countBuilder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       crossAxisCount: 2,
       crossAxisSpacing: 10,
@@ -18,7 +18,7 @@ class LentaImageCard extends StatelessWidget {
       itemBuilder: (context, index) {
         final post = posts[index];
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(15))),
           child: FadeInImage.memoryNetwork(

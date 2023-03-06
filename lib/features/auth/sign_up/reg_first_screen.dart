@@ -7,7 +7,7 @@ import '../../../custom_widgets/custom_input.dart';
 import 'reg_second_screen.dart';
 
 class SignUpFirstScreen extends StatefulWidget {
-  SignUpFirstScreen({Key? key}) : super(key: key);
+  const SignUpFirstScreen({Key? key}) : super(key: key);
 
   @override
   State<SignUpFirstScreen> createState() => _SignUpFirstScreenState();
@@ -59,7 +59,7 @@ class _SignUpFirstScreenState extends State<SignUpFirstScreen> {
                 textColor: Colors.white,
                 ontap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SignUpSecondScreen()));
+                      builder: (context) => const SignUpSecondScreen()));
                 },
                 buttonColor: Colors.black,
               )

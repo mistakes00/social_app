@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:social_app/custom_widgets/custom_button.dart';
 import 'package:social_app/features/auth/sign_in/sign_in_screen.dart';
 
-import '../../core/app_route.dart';
 import '../../custom_widgets/custom_avatar.dart';
 import 'sign_up/reg_first_screen.dart';
 
@@ -56,7 +55,7 @@ class AuthScreen extends StatelessWidget {
                         buttonText: 'LOG IN',
                         ontap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SignIn()));
+                              builder: (context) => const SignIn()));
                         })),
                 const Gap(9),
                 Expanded(
@@ -64,7 +63,7 @@ class AuthScreen extends StatelessWidget {
                   buttonText: 'REGISTER',
                   ontap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => SignUpFirstScreen()));
+                        builder: (context) => const SignUpFirstScreen()));
                   },
                   textColor: Colors.white,
                   buttonColor: Colors.black,

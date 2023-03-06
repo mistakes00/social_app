@@ -51,11 +51,16 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        // multiDexEnabled true 
+        
+        multiDexEnabled true 
     }
 
     buildTypes {
         release {
+            // minifyEnabled false
+            // shrinkResources false
+            // useProguard false
+            // debuggable false
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug

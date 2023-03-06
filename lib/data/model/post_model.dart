@@ -13,19 +13,18 @@ class PostModel {
   final String? url;
   final String? thumbnailUrl;
 
-  factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
-        albumId: json["albumId"],
-        id: json["id"],
-        title: json["title"],
-        url: json["url"],
-        thumbnailUrl: json["thumbnailUrl"],
+  factory PostModel.fromMap(Map<String, dynamic> map) => PostModel(
+        albumId: map["albumId"],
+        id: map["id"],
+        title: map["title"],
+        url: map["url"],
+        thumbnailUrl: map["thumbnailUrl"],
       );
+}
 
-  Map<String, dynamic> toJson() => {
-        "albumId": albumId,
-        "id": id,
-        "title": title,
-        "url": url,
-        "thumbnailUrl": thumbnailUrl,
-      };
+class Failure {
+  final String message;
+  final String code;
+
+  const Failure({this.message = "", this.code = ""});
 }
