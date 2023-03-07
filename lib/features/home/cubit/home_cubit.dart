@@ -9,18 +9,6 @@ class PostFetchCubit extends Cubit<PostFetchState> {
   final ApiRepo apiRepo;
   int page = 1;
   PostFetchCubit({required this.apiRepo}) : super(PostFetchInitial());
-
-  // Future<void> fetchPostApi() async {
-  //   emit(PostFetchLoading());
-  //   try {
-  //     final List<PostModel>? postList = await apiRepo.getPostList(page);
-  //     emit(PostFetchLoaded(postList: postList ?? []));
-  //   } on Failure catch (err) {
-  //     emit(PostFetchError(failure: err));
-  //   } catch (err) {
-  //     print("Error :$err");
-  //   }
-  // }
   void fetchPostApi() {
     if (state is PostsLoading) return;
 
@@ -61,32 +49,5 @@ class PostsLoading extends PostFetchState {
 
   PostsLoading(this.oldPosts, {this.isFirstFetch = false});
 }
-// abstract class PostFetchState extends Equatable {
-//   const PostFetchState();
-
-//   @override
-//   List<Object> get props => [];
-// }
 
 class PostFetchInitial extends PostFetchState {}
-
-// class PostFetchLoading extends PostFetchState {}
-
-// class PostFetchLoaded extends PostFetchState {
-//   final List<PostModel> postList;
-
-//   const PostFetchLoaded({required this.postList});
-
-//   @override
-//   List<Object> get props => [postList];
-// }
-
-// class PostFetchError extends PostFetchState {
-//   final Failure failure;
-
-//   const PostFetchError({
-//     required this.failure,
-//   });
-//   @override
-//   List<Object> get props => [failure];
-// }

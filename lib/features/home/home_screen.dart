@@ -119,7 +119,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )..fetchPostApi(),
           );
-          // BlocProvider.of<PostFetchCubit>(context).fetchPostApi();
         }
       }
     });
@@ -130,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     setupScrollController(context);
-    // BlocProvider.of<PostFetchCubit>(context).fetchPostApi();
     return BlocProvider<PostFetchCubit>(
       create: (context) => PostFetchCubit(
         apiRepo: ApiRepo(
@@ -245,17 +243,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSpacing: 12,
                         itemBuilder: (context, index) {
                           final post = posts[index];
-                          return Container(
-                            decoration: const BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15))),
-                            child: FadeInImage.memoryNetwork(
-                              placeholder: kTransparentImage,
-                              image: post.thumbnailUrl.toString(),
-                              fit: BoxFit.cover,
-                            ),
-                          );
+                          if (index < posts.length) {
+                            return Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15))),
+                              child: FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                image: post.thumbnailUrl.toString(),
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          } else {
+                            Timer(Duration(milliseconds: 30), () {
+                              scrollController.jumpTo(
+                                  scrollController.position.maxScrollExtent);
+                            });
+
+                            return CircularProgressIndicator();
+                          }
                         },
                         staggeredTileBuilder: (index) {
                           return StaggeredTile.count(
