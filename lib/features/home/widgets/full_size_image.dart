@@ -5,8 +5,16 @@ import 'package:social_app/custom_widgets/custom_avatar.dart';
 import '../../../data/model/post_model.dart';
 
 class FullSizeImage extends StatelessWidget {
-  const FullSizeImage({Key? key, required this.posts}) : super(key: key);
-  final List<PostModel> posts;
+  const FullSizeImage(
+      {Key? key,
+      required this.image,
+      required this.user,
+      required this.nickName})
+      : super(key: key);
+
+  final String image;
+  final String user;
+  final String nickName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +24,7 @@ class FullSizeImage extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             child: Image.network(
-              posts.single.thumbnailUrl.toString(),
+              image,
               fit: BoxFit.cover,
             ),
           ),
@@ -39,9 +47,9 @@ class FullSizeImage extends StatelessWidget {
             top: 46,
             left: 16,
             child: AvatarWidget(
-              imageUrl: posts.single.url,
-              user: posts.single.id.toString(),
-              nickName: posts.single.title,
+              imageUrl: image,
+              user: user,
+              nickName: nickName,
               textColor: Colors.white,
             ),
           ),

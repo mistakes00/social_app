@@ -114,9 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   );
 
-  final scrollController = ScrollController();
+  final verScrollController = ScrollController();
 
-  final sscrollController = ScrollController();
+  final horScrollController = ScrollController();
   @override
   void initState() {
     setupScrollController();
@@ -124,9 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void setupScrollController() {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
+    verScrollController.addListener(() {
+      if (verScrollController.position.atEdge) {
+        if (verScrollController.position.pixels != 0) {
           postCubit.fetchPostApi();
         }
       }
@@ -135,14 +135,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-
     return BlocProvider<PostFetchCubit>.value(
       value: postCubit..fetchPostApi(),
       child: Scaffold(
         body: SingleChildScrollView(
-          controller: scrollController,
+          controller: verScrollController,
           child: Padding(
             padding: const EdgeInsets.only(right: 16, left: 16, top: 70),
             child: Column(
@@ -170,59 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       isLoading = true;
                     } else if (state is PostsLoaded) {
                       posts = state.posts;
-                      return SizedBox(
-                        width: width,
-                        height: height * 0.4554,
-                        child: ListView.separated(
-                          controller: sscrollController,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: posts.length + (isLoading == true ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            final post = posts[index];
-
-                            if (index < posts.length) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (contect) => FullSizeImage(
-                                            posts: posts,
-                                          )));
-                                },
-                                child: SizedBox(
-                                  height: 353,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 310,
-                                        width: 380,
-                                        child: Image.network(
-                                          post.url.toString(),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      const Gap(16),
-                                      AvatarWidget(
-                                          imageUrl: post.thumbnailUrl,
-                                          user: post.id.toString(),
-                                          nickName: post.title),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              Timer(Duration(milliseconds: 30), () {
-                                scrollController.jumpTo(
-                                    scrollController.position.maxScrollExtent);
-                              });
-                              return CircularProgressIndicator();
-                            }
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              SizedBox(),
-                        ),
+                      return ImageCardItem(
+                        posts: posts,
+                        controller: horScrollController,
+                        isLoading: isLoading,
                       );
                     }
                     return SizedBox();
@@ -240,40 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       isLoading = true;
                     } else if (state is PostsLoaded) {
                       posts = state.posts;
-                      return StaggeredGridView.countBuilder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 12,
-                        itemBuilder: (context, index) {
-                          final post = posts[index];
-                          if (index < posts.length) {
-                            return Container(
-                              decoration: const BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
-                              child: FadeInImage.memoryNetwork(
-                                placeholder: kTransparentImage,
-                                image: post.thumbnailUrl.toString(),
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          } else {
-                            Timer(Duration(milliseconds: 30), () {
-                              scrollController.jumpTo(
-                                  scrollController.position.maxScrollExtent);
-                            });
-
-                            return CircularProgressIndicator();
-                          }
-                        },
-                        staggeredTileBuilder: (index) {
-                          return StaggeredTile.count(
-                              1, index.isEven ? 1.2 : 1.8);
-                        },
-                        itemCount: posts.length + (isLoading == true ? 1 : 0),
+                      return LentaImageCard(
+                        posts: posts,
+                        controller: verScrollController,
+                        isLoading: isLoading,
                       );
                     }
                     return SizedBox();
