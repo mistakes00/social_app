@@ -8,6 +8,7 @@ import '../../../data/repositories/post_repo.dart';
 class PostFetchCubit extends Cubit<PostFetchState> {
   final ApiRepo apiRepo;
   int page = 1;
+
   PostFetchCubit({required this.apiRepo}) : super(PostFetchInitial());
   void fetchPostApi() {
     if (state is PostsLoading) return;
@@ -25,7 +26,7 @@ class PostFetchCubit extends Cubit<PostFetchState> {
       page++;
 
       final posts = (state as PostsLoading).oldPosts;
-      posts.addAll(newPosts ?? []);
+      posts.addAll(newPosts!);
 
       emit(PostsLoaded(posts));
     });

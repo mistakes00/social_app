@@ -75,10 +75,8 @@ class _MainScreenState extends State<MainScreen> {
       onItemSelected: (index) {
         setState(() {});
       },
-      screens: [
-        HomeScreen(
-          apiService: ApiService(),
-        ),
+      screens: const [
+        HomeScreen(),
         SearchScreen(),
         AddingScreen(),
         ChatScreen(),

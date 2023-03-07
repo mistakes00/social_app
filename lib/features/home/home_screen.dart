@@ -98,27 +98,36 @@ import 'widgets/lenta_image_card.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     Key? key,
-    required this.apiService,
+    required,
   }) : super(key: key);
-  final ApiService apiService;
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+final apiService = ApiService();
+
 class _HomeScreenState extends State<HomeScreen> {
+  late final postCubit = PostFetchCubit(
+    apiRepo: ApiRepo(
+      apiService: apiService,
+    ),
+  );
+
   final scrollController = ScrollController();
 
-  void setupScrollController(context) {
+  final sscrollController = ScrollController();
+  @override
+  void initState() {
+    setupScrollController();
+    super.initState();
+  }
+
+  void setupScrollController() {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          BlocProvider<PostFetchCubit>(
-            create: (context) => PostFetchCubit(
-              apiRepo: ApiRepo(
-                apiService: widget.apiService,
-              ),
-            )..fetchPostApi(),
-          );
+          postCubit.fetchPostApi();
         }
       }
     });
@@ -128,13 +137,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    setupScrollController(context);
-    return BlocProvider<PostFetchCubit>(
-      create: (context) => PostFetchCubit(
-        apiRepo: ApiRepo(
-          apiService: widget.apiService,
-        ),
-      )..fetchPostApi(),
+
+    return BlocProvider<PostFetchCubit>.value(
+      value: postCubit..fetchPostApi(),
       child: Scaffold(
         body: SingleChildScrollView(
           controller: scrollController,
@@ -169,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: width,
                         height: height * 0.4554,
                         child: ListView.separated(
-                          controller: scrollController,
+                          controller: sscrollController,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: posts.length + (isLoading == true ? 1 : 0),
